@@ -16,3 +16,5 @@ Các video tham khảo:
 Nguồn ảnh: (hic em cứ lấy trên Pinterest xuống thôi mà chả nhớ của ai :<)
 
 IDE: Visual Studio Code
+
+(Bài lần này em chưa hoàn thành được dashboard, chức năng bình luận, down và xóa bài đã upload ạ :<)
