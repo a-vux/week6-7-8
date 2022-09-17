@@ -1,4 +1,7 @@
 # Báo cáo tuần 6-7-8 về: Xây dựng website
+
+![a](./sticker_3.gif)
+
 Các ứng dụng/tools:
 * PHP, web server, MySQL: XAMPP
 * HTML + CSS + JS: Bootstrap 5
