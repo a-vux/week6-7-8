@@ -1,6 +1,8 @@
 # Báo cáo tuần 6-7-8 về: Xây dựng website
 
-![a](./sticker_3.gif)
+<p align="center">
+    <img src="./sticker_3.gif" style="width: 20vw;">
+<p>
 
 Các ứng dụng/tools:
 * PHP, web server, MySQL: XAMPP
