@@ -1,11 +1,13 @@
 <?php
-    @include '../config.php';
+    session_start();
+    @include '../inc/config.php';
+    @include 'check_admin.php';
+    @include '../logout.php';
     if (isset($_POST['submit'])){
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $pass = md5($_POST['password']); 
         $type = $_POST['type'];
-
         $select = "SELECT * FROM user_form WHERE username = '$username' OR email = '$email'";
         $result = mysqli_query($conn, $select); 
         if(mysqli_num_rows($result) > 0){
@@ -20,24 +22,13 @@
         }else{
             $insert = "INSERT INTO user_form(username, email, password, type) VALUES ('$username', '$email', '$pass', '$type')";
             mysqli_query($conn, $insert);
-            $success[] = "Successfully registered!";
+            $success[] = "Successfully created!";
         }
      } 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link 
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-      rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-      crossorigin="anonymous">
-    <title>Create user</title>
-</head>
-<body>
+<?php @include '../inc/admin/header.php'; ?>
+
     <section class="p-5">
         <div class="container">
             <div>
@@ -85,5 +76,7 @@
             </div>
         </div>
     </section>
-</body>
-</html>
+
+<?php
+    @include '../inc/footer.php';
+?>

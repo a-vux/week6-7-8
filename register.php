@@ -1,5 +1,5 @@
 <?php
-    @include 'config.php';
+    @include './inc/config.php';
     if (isset($_POST['submit'])){
        $username = mysqli_real_escape_string($conn, $_POST['username']);
     // mysqli_real_escape_string(connection. escapestring) dùng để escape special chars trong chuỗi dùng trong SQL query

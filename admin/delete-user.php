@@ -1,8 +1,11 @@
 <?php
-    @include '../config.php';
+    session_start();
+    @include '../inc/config.php';
+    @include './check_admin.php';
+    @include '../logout.php';
     if (isset($_POST['submit'])){
         $username = mysqli_real_escape_string($conn, $_POST['username']);
-
+        $_SESSION['delete_user'] = $username;
         $select = "SELECT * FROM user_form WHERE username = '$username'";
         $result = mysqli_query($conn, $select); 
         if(mysqli_num_rows($result) == 0){
@@ -11,21 +14,16 @@
             $user = mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
     } 
+    if (isset($_POST['delete'])){
+        $username = $_SESSION['delete_user'];
+        $query = "DELETE FROM user_form WHERE username='$username';";
+        mysqli_query($conn, $query);
+        $success[] = 'Delete successfully!';
+        unset($_SESSION['delete_user']);
+    }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link 
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-      rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-      crossorigin="anonymous">
-    <title>Delete user</title>
-</head>
-<body>
+<?php @include '../inc/admin/header.php'; ?>
     <section class="p-5">
         <div class="container">
             <div>
@@ -57,7 +55,13 @@
 
                                 <?php if (isset($user)): ?>
                                     <div style="margin-bottom: 1rem";>Available user:</div>
-                                        <?php echo $user['username'] . ' - ' . $user['email']; ?>
+                                        <?php echo $user[0]['username'] . ' - ' . $user[0]['email']  . ' - ' . $user[0]['type'] . '<br>'; ?> 
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div style="margin-top: 0.5rem">Are you sure to delete this user?</div>
+                                            <form class="text-start" method='POST'>
+                                                <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
                                 <?php endif; ?>
                             </form>
                         </div>
@@ -66,5 +70,5 @@
             </div>
         </div>
     </section>
-</body>
-</html>
+
+<?php @include '../inc/footer.php'; ?>

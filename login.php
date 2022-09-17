@@ -1,28 +1,25 @@
 <?php
-   @include 'config.php';
+    @include './inc/config.php';
+    session_start(); //
+    if (isset($_POST['submit'])){
+            $username = mysqli_real_escape_string($conn, $_POST['username']);
+            $pass = md5($_POST['password']);
+            $select = " SELECT * FROM user_form WHERE username = '$username' && password = '$pass' ";
+            $result = mysqli_query($conn, $select);
 
-   session_start();
-
-   if (isset($_POST['submit'])){
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $pass = md5($_POST['password']);
-
-        $select = " SELECT * FROM user_form WHERE username = '$username' && password = '$pass' ";
-        $result = mysqli_query($conn, $select);
-
-        if(mysqli_num_rows($result) > 0){
-            $row = mysqli_fetch_array($result);
-            if($row['type']=='admin'){
-                $_SESSION['admin_name'] = $row['username'];
-                header('location:page_admin.php');
-            }elseif($row['type']=='user'){
-                $_SESSION['user_name'] = $row['username'];
-                header('location:page_user.php');
+            if(mysqli_num_rows($result) > 0){
+                $row = mysqli_fetch_array($result);
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['role'] = $row['type'];
+                if($_SESSION['role']==='admin'){
+                    header('location:./admin/page_admin.php');
+                }elseif($_SESSION['role']==='user'){
+                    header('location:./user/page_user.php');
+                }
+            }else{
+                $error[] = 'Incorrect username or password';
             }
-        }else{
-            $error[] = 'incorrect mail or password';
-        }
-   } 
+    } 
 ?>
 
 <!DOCTYPE html>
